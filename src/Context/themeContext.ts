@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 interface ThemeContextType {
   theme: string;
@@ -14,5 +14,5 @@ export const useTheme = () => {
   if (!ThemeContext) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
-  return ThemeContext;
+  return useContext(ThemeContext);
 };

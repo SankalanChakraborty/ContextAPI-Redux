@@ -1,9 +1,8 @@
 import Detail from "./Components/Detail";
 import { useTheme } from "./Context/themeContext";
-import { useContext } from "react";
 
 function App() {
-  const themeContext = useContext(useTheme());
+  const themeContext = useTheme();
 
   return (
     <>
