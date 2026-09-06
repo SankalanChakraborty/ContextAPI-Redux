@@ -19,6 +19,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "./store/store";
+import { useGetPostsQuery } from "./store/postSliceApi";
 // import { ProductState } from "./store/slice";
 
 interface Product {
@@ -33,6 +34,8 @@ interface Product {
 }
 
 function App() {
+  // RTK Query
+  const { data: posts, isLoading, error } = useGetPostsQuery(undefined);
   const dispatch = useDispatch();
   const products = useSelector(
     (state: RootState) => state.product.data as Product[],
@@ -41,7 +44,7 @@ function App() {
   const fetchProducts = async () => {
     const response = await fetch("https://dummyjson.com/products");
     const data = await response.json();
-    console.log("Running from useEffect", data.products);
+    // console.log("Running from useEffect", data.products);
     dispatch({ type: "product/setProductData", payload: data.products });
   };
 
@@ -54,6 +57,18 @@ function App() {
 
     dispatch({ type: "product/deleteProductData", payload: { id } });
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error fetching products.</p>;
+  }
+
+  if (posts) {
+    console.log(posts);
+  }
 
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: 20 }}>

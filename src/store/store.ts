@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./slice";
+import productReducer from "./productSlice";
+import postApiSlice from "./postSliceApi";
 
 export const store = configureStore({
-  reducer: { product: productReducer },
+  reducer: {
+    product: productReducer,
+    [postApiSlice.reducerPath]: postApiSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(postApiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
